@@ -44,7 +44,7 @@ class PostController extends Controller
 
     }
 
-
+    //edit post approach 1
     public function editPost(Request $request){
         $validator = Validator::make(
             $request->all(),
@@ -85,4 +85,27 @@ class PostController extends Controller
             ], 403);
         }
     }
+
+
+    //edit post approach 2
+
+
+
+    //get all posts
+    public function getAllPosts(Request $request){
+        try{
+            $posts = Post::all();
+            return response()->json([
+                'posts' => $posts
+            ], 200);
+        }catch(\Exception $e){
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 403);
+        }
+        
+    }
+
+
+
 }
