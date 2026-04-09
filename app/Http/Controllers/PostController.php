@@ -172,5 +172,20 @@ class PostController extends Controller
             }
         }
 
+        //get post by id
+          public function getPostById(Request $request, $post_id){
+            try{
+                $posts = Post::where('id', $post_id)->get();
+                return response()->json([
+                    'posts' => $posts
+                ], 200);
+            }catch(\Exception $e){
+                return response()->json([
+                    'error' => $e->getMessage()
+                ], 403);
+            }    
+        }
+
+
 
 }
