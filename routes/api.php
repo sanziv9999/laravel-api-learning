@@ -33,6 +33,9 @@ Route::middleware('auth:sanctum')->group(function(): void{
     //delete post by id
     Route::delete('/delete/post/{id}', [PostController::class, 'deletePostById']);
 
+    //get post by title
+    Route::get('/post-having/{title}', [PostController::class, 'getPostByTitle']);
+
 });
 
 

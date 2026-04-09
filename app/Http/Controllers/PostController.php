@@ -186,6 +186,20 @@ class PostController extends Controller
             }    
         }
 
+        //get post by post title
+          public function getPostByTitle(Request $request, $title){
+            try{
+                $posts = Post::where('title', 'LIKE', '%' . $title . '%')->get();
+                return response()->json([
+                    'posts' => $posts
+                ], 200);
+            }catch(\Exception $e){
+                return response()->json([
+                    'error' => $e->getMessage()
+                ], 403);
+            }    
+        }
+
 
 
 }
