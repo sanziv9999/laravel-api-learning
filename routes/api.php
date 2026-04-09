@@ -21,6 +21,9 @@ Route::middleware('auth:sanctum')->group(function(): void{
     //edit approach 1
     Route::patch('/edit/post', [PostController::class, 'editPost']);
 
+    //edit approach 2
+    Route::patch('/edit/post/{id}', [PostController::class, 'editPostById']);
+
     //getAllPosts
 
     Route::get('/all/posts', [PostController::class, 'getAllPosts']);

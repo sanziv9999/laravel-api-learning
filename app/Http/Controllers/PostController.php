@@ -88,13 +88,53 @@ class PostController extends Controller
 
 
     //edit post approach 2
+     public function editPostById(Request $request, $post_id){
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'title'   => 'required|string|max:255',
+                'text'    => 'required|string',
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        try {
+            $post_data = Post::find($post_id);
+
+            if (!$post_data) {
+                return response()->json([
+                    'error' => 'Post not found'
+                ], 404);
+            }
+
+            $post_data->update([
+                'title' => $request->title,
+                'text'  => $request->text,
+            ]);
+
+            return response()->json([
+                'message' => "Post updated successfully"
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 403);
+        }
+    }
+
 
 
 
     //get all posts
     public function getAllPosts(Request $request){
         try{
-            $posts = Post::all();
+            $posts = Post::latest()->get();
             return response()->json([
                 'posts' => $posts
             ], 200);
