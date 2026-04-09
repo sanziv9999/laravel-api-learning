@@ -147,5 +147,30 @@ class PostController extends Controller
     }
 
 
+    //delete post by id
+
+    public function deletePostById(Request $request, $post_id){
+            try {
+                $post_data = Post::find($post_id);
+
+                if (!$post_data) {
+                    return response()->json([
+                        'error' => 'Post not found'
+                    ], 404);
+                }
+
+                $post_data->delete();
+
+                return response()->json([
+                    'message' => "Post updated successfully"
+                ], 200);
+
+            } catch (\Exception $e) {
+                return response()->json([
+                    'error' => $e->getMessage()
+                ], 403);
+            }
+        }
+
 
 }
