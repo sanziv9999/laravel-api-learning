@@ -18,6 +18,8 @@ Route::middleware('auth:sanctum')->group(function(): void{
 
     //blog api
     Route::post('/add/post', [PostController::class, 'addNewPost']);
+    //edit approach 1
+    Route::patch('/edit/post', [PostController::class, 'editPost']);
 
 });
 

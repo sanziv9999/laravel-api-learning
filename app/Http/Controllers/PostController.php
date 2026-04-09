@@ -34,8 +34,7 @@ class PostController extends Controller
             $post-> save();
 
             return response()->json([
-                'message' => "Post added successfully",
-                'post' => $post->id
+                'message' => "Post added successfully"
             ], 200);
         }catch(\Exception $e ){
             return response()->json([
@@ -43,5 +42,47 @@ class PostController extends Controller
             ],403);
         }
 
+    }
+
+
+    public function editPost(Request $request){
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'post_id' => 'required|integer|exists:posts,id',
+                'title'   => 'required|string|max:255',
+                'text'    => 'required|string',
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        try {
+            $post_data = Post::find($request->post_id);
+
+            if (!$post_data) {
+                return response()->json([
+                    'error' => 'Post not found'
+                ], 404);
+            }
+
+            $post_data->update([
+                'title' => $request->title,
+                'text'  => $request->text,
+            ]);
+
+            return response()->json([
+                'message' => "Post updated successfully"
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 403);
+        }
     }
 }
